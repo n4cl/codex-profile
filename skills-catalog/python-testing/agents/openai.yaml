@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Testing"
+  short_description: "Python 開発で pytest/TDD を運用するためのガイド。"
+  default_prompt: "Python の機能実装を TDD と pytest の実践に沿って進めるためにこの skill を使う。"
