@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM文体除去校正"
+  short_description: "LLM 由来の文体の癖が残る日本語ドラフトを事実保持で直接校正する"
+  default_prompt: "対象の日本語テキストファイルを直接校正してください。LLM 由来の文体の癖を下げつつ、固有名詞、数値、日付、意味は保持してください。"
