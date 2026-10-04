@@ -1,10 +1,4 @@
-model = "gpt-5.5"
-model_reasoning_effort = "high"
-
 web_search = "live"
 personality = "pragmatic"
 
 model_reasoning_summary = "detailed"
-
-[mcp_servers.context7]
-url = "https://mcp.context7.com/mcp"
