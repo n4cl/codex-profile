@@ -7,11 +7,11 @@ Codex の設定と skills を管理するリポジトリです。
 `~/.codex/config.toml` には `projects."<path>".trust_level` のようなホスト固有情報が自動で追記されます。
 このため、リポジトリの設定ファイルをシンボリックリンクで直接運用する方法は、差分汚染が起きやすく非推奨です。
 
-推奨運用:
+このリポジトリをグローバル設定の管理元として使います。
 
-1. リポジトリの `.codex/config.toml` をベースとして使う
-2. 実運用はローカルの `~/.codex/config.toml` で管理する
-3. 共有したい変更だけをリポジトリへ手動反映する
+1. グローバルに適用したい設定をリポジトリの `.codex/config.toml` で管理する
+2. 配布スクリプトで `~/.codex/config.toml` に上書き反映する
+3. Codex がホーム側に追記した設定も、次回配布時にはリポジトリの内容で置き換える
 
 ## `~/.codex` への配布（シンボリックリンクなし）
 
@@ -35,6 +35,10 @@ Codex の設定と skills を管理するリポジトリです。
 - 既存ファイルに差分がある場合は、上書き前に `~/.codex/.backup/<timestamp>/...` へ退避
 - `~/.codex` 側の余剰ファイルは削除しない
 
+`config.toml` もファイル単位で置き換えます。設定項目のマージは行わないため、
+ホーム側のファイルだけにあるモデル、MCP、プラグイン、プロジェクトの信頼設定などは、
+配布後の `config.toml` には残りません。これは、管理元のグローバル設定に揃えるための
+意図した動作です。置き換え前の設定はバックアップから確認・復元できます。
 
 ## skills の管理方針
 
@@ -67,18 +71,9 @@ Codex の設定と skills を管理するリポジトリです。
 ./scripts/install-skill.sh --dry-run <skill-name>
 ```
 
-## Context7 認証（OAuth）
+## Context7 の設定
 
-このリポジトリの `.codex/config.toml` は Context7 の OAuth 認証を前提にしています。
-API キーの `http_headers` / `env_http_headers` は使いません。
-
-```toml
-[mcp_servers.context7]
-url = "https://mcp.context7.com/mcp"
-```
-
-必要に応じて初回だけ認証します。
-
-```sh
-codex mcp login context7
-```
+このリポジトリの `.codex/config.toml` には Context7 の接続設定を含めていません。
+Context7 を利用する場合は、各環境の `~/.codex/config.toml` で接続設定を管理し、
+選択した接続方式に応じて認証してください。認証情報はこのリポジトリに保存しないでください。
+ホーム側だけに追加した接続設定は、次回配布時に上書きされます。
